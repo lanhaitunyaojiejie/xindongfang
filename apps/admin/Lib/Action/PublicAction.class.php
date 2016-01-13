@@ -28,7 +28,7 @@ class PublicAction extends AdministratorAction {
 	public function doLogin(){
         //检查验证码
         if (md5(strtoupper($_POST['verify'])) != $_SESSION['verify']) {
-            $this->error('验证码错误');
+            //$this->error('验证码错误');
         }
 		$login = model('Passport')->adminLogin();
 		if($login){

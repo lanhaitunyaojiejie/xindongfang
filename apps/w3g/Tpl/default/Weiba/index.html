@@ -1,26 +1,33 @@
 <include file="../Public/header" />
 <link href="{:APPS_URL}/w3g/_static/style.css" rel="stylesheet" type="text/css" />
 <div id="content">
-    <div id="weiba" data-title="微吧" class="panel" data-selected="true"  data-menu="msgmenu" style="padding:0;">
+    <div id="weiba" data-title="论坛" class="panel" data-selected="true"  data-menu="msgmenu" style="padding:0;">
         <header>
+        	
             <div id="header-buttons">
+            	<!--
                 <div id="messageLink" class="header-menu-link"><a href="{:U('w3g/Index/msgbox')}"><i class="num"></i></a></div>
-        <div id="menuLink" class="header-menu-link"></div>
-                <!--<div id="otherLink">
+        		<div id="menuLink" class="header-menu-link"></div>
+                -->
+                
+                <div id="otherLink" style="right:0">
                     <a id="writeLink" class="header-menu-link" href="{:U('w3g/Weiba/quickPost')}"></a>
+                    <!--
                     <a id="spaceLink" class="header-menu-link" href="javascript:;"></a>
-                </div>-->
+                    -->
+                </div>
             </div>
+            
             <h1 class="">
-                微吧推荐
+                全部板块
             </h1>
         </header>
         <div class="mainWeiba">
             <div class="tab">
                 <ul>
                     <li class="current"><a href="{:U('w3g/Weiba/index')}">推荐</a></li>
-                    <li><a href="{:U('w3g/Weiba/forum')}">微吧</a></li>
-                    <li><a href="{:U('w3g/Weiba/my')}" class="noborder">我的</a></li>
+                    <li><a href="{:U('w3g/Weiba/forum')}">板块</a></li>
+                    <li><a href="{:U('w3g/Weiba/my')}" class="noborder">我</a></li>
                 </ul>
             </div>
 
@@ -28,8 +35,13 @@
               <php>if($indexList):</php>
               <ul class="wbtz_list" style="margin-bottom:1em">
                 <volist name="indexList" id="vo">
-                <li onclick="javascript:window.open('{:U('w3g/Weiba/postDetail',array('post_id'=>$vo['post_id']))}','_self')">
-                	<a class="img" href="{:U('w3g/Weiba/postDetail',array('post_id'=>$vo['post_id']))}"><img src="{:getImageUrlByAttachId($vo['index_img'], 640, 320, true)}" /></a>
+               
+                <li  class="top_li" onclick="javascript:window.open('{:U('w3g/Weiba/postDetail',array('post_id'=>$vo['post_id']))}','_self')">
+                	<a class="img" href="{:U('w3g/Weiba/postDetail',array('post_id'=>$vo['post_id']))}">
+                    <!--<img src="{:getImageUrlByAttachId($vo['index_img'], 640, 320, true)}" />-->
+                    <img src="{$vo.index_img_url}" width="100%"/>
+                    
+                    </a>
                     <a class="link abs" href="{:U('w3g/Weiba/postDetail',array('post_id'=>$vo['post_id']))}"><img class="face" src="{:getUserFace($vo['post_uid'])}" />{$vo.title}</a>
                 </li>
                 </volist>
@@ -38,13 +50,15 @@
               <ul class="wbtz_list">
                 <volist name="list" id="vo">
                 <li onclick="javascript:window.open('{:U('w3g/Weiba/postDetail',array('post_id'=>$vo['post_id']))}','_self')">
-                	
-                    <a class="link" href="{:U('w3g/Weiba/postDetail',array('post_id'=>$vo['post_id']))}"><img class="face" src="{:getUserFace($vo['post_uid'])}" />{$vo.title}</a>
+                        
+                        <a class="link" href="{:U('w3g/Weiba/postDetail',array('post_id'=>$vo['post_id']))}"><img class="face" src="{:getUserFace($vo['post_uid'])}" />{$vo.title}</a>
                 </li>
+                
                 </volist>
               </ul>
               <php>endif;</php>
             </div>
+            <!--
             <php>if($weibalist):</php>
             <div class="weiba_forumlist">
 			<div class="section">
@@ -55,7 +69,7 @@
                         <dl>
                           <dt>
                             <a href="{:U('w3g/Weiba/detail',array('weiba_id'=>$vo['weiba_id']))}">
-                              <img width="70" height="70" src="{$vo.avatar_middle}">
+                              <img width="105" height="105" src="{$vo.avatar_big}">
                             </a>
                           </dt>
                           <dd>
@@ -71,6 +85,7 @@
               </div>
             </div>
             <php>endif;</php>
+            -->
         </div>
     </div>
 <include file="../Public/footer" />

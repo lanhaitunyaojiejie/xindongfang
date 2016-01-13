@@ -4,3 +4,6 @@
 .project
 
 *.prefs
+/_runtime
+/data
+/_runtime

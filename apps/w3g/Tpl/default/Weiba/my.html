@@ -4,38 +4,51 @@
   body{background-color: #f8f8f8;}
 </style>
 <div id="content">
-    <div id="weiba" data-title="微吧" class="panel" data-selected="true"  data-menu="msgmenu" style="padding:0;">
+    <div id="weiba" data-title="论坛" class="panel" data-selected="true"  data-menu="msgmenu" style="padding:0;">
         <header>
+        	
             <div id="header-buttons">
+            	<!--
+            	<a href="javascript:history.go(-1);">
+                    <div id="back" class="header-menu-link" data-back="false">
+                    </div>
+                </a>
                 <div id="messageLink" class="header-menu-link"><a href="{:U('w3g/Index/msgbox')}"><i class="num"></i></a></div>
         <div id="menuLink" class="header-menu-link"></div>
                 <!--<div id="otherLink">
                     <a id="writeLink" class="header-menu-link" href="{:U('w3g/Weiba/quickPost')}"></a>
                     <a id="spaceLink" class="header-menu-link" href="javascript:;"></a>
-                </div>-->
+                </div>
+                -->
             </div>
-            <h1 class="">
-                我的微吧
+            
+            <h1>
+                我
             </h1>
         </header>
         <div class="mainWeiba">
             <div class="tab">
                 <ul>
                     <li><a href="{:U('w3g/Weiba/index')}">推荐</a></li>
-                    <li><a href="{:U('w3g/Weiba/forum')}">微吧</a></li>
-                    <li class="current"><a href="{:U('w3g/Weiba/my')}" class="noborder">我的</a></li>
+                    <li><a href="{:U('w3g/Weiba/forum')}">板块</a></li>
+                    <li class="current"><a href="{:U('w3g/Weiba/my')}" class="noborder">我</a></li>
                 </ul>
             </div>
     <div class="weiba_forumlist">
       <php>if($type == 'index'):</php>
+      
       <div class="navlist">
         <ul>
+        	<li class="no_arrow"><a href="{:U('w3g/Weiba/my', array('type'=>'myWeiba'))}"><img src="{$profile['avatar_small']}"/><strong>{$profile['uname']}</strong> <span class="fr">编辑个人资料</span></a></li>
             <li><a href="{:U('w3g/Weiba/my', array('type'=>'myWeiba'))}">我关注的微吧</a></li>
             <li><a href="{:U('w3g/Weiba/my', array('type'=>'myFollowing'))}">我关注的微吧帖子</a></li>
             <li><a href="{:U('w3g/Weiba/my', array('type'=>'myPost'))}">我发表的帖子</a></li>
             <li><a href="{:U('w3g/Weiba/my', array('type'=>'myReply'))}">我回复的帖子</a></li>
             <li><a href="{:U('w3g/Weiba/my', array('type'=>'myFavorite'))}">我收藏的帖子</a></li>
         </ul>
+        <div class="section_m">
+        	<a class="btn-big" href="#">退出</a>
+        </div>
       </div>
       <php>elseif($type == 'myWeiba'):</php>
       <div class="section">

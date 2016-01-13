@@ -19,7 +19,7 @@ class ConfigAction extends AdministratorAction {
 		$this->pageTitle ['guest'] = '游客配置';
 		$this->pageTitle ['announcement'] = L ( 'PUBLIC_ANNOUNCEMENT_SETTING' );
 		$this->pageTitle ['email'] = L ( 'PUBLIC_EMAIL_SETTING' );
-		$this->pageTitle['sms'] = '短信配置';
+		$this->pageTitle ['sms'] = '短信配置';
 		// $this->pageTitle ['audit'] = L ( 'PUBLIC_FILTER_SETTING' );
 		$this->pageTitle ['sensitive'] = L ( 'PUBLIC_FILTER_SETTING' );
 		$this->pageTitle ['sensitiveCategory'] = '敏感词分类';
@@ -107,7 +107,7 @@ class ConfigAction extends AdministratorAction {
 		$this->assign ( 'filesShow', $filesShow );
 		
 		$this->onload [] = 'admin.siteConfigDefault(' . $detailData ['site_closed'] . ')';
-
+		
 		$this->displayConfig ( $detailData );
 	}
 	
@@ -128,7 +128,7 @@ class ConfigAction extends AdministratorAction {
 				'personal_open',
 				'personal_required',
 				'tag_num',
-				//'interester_open',
+				// 'interester_open',
 				'interester_rule',
 				'interester_recommend',
 				'default_follow',
@@ -137,47 +137,67 @@ class ConfigAction extends AdministratorAction {
 				'welcome_notify' 
 		);
 		// 指定邮箱后缀，任何邮箱后缀，关闭注册
-		$this->opt['register_type'] = array('open'=>'开放注册', 'invite'=>'仅邀请注册', 'admin'=>'仅管理员邀请注册', 'other'=>'仅第三方帐号绑定');
-		$this->opt['account_type'] = array('email'=>'仅邮箱', 'phone'=>'仅手机', 'all'=>'手机或邮箱');
+		$this->opt ['register_type'] = array (
+				'open' => '开放注册',
+				'invite' => '仅邀请注册',
+				'admin' => '仅管理员邀请注册',
+				'other' => '仅第三方帐号绑定' 
+		);
+		$this->opt ['account_type'] = array (
+				'email' => '仅邮箱',
+				'phone' => '仅手机',
+				'all' => '手机或邮箱' 
+		);
 		// 开启，关闭
-		$this->opt['register_audit'] = $this->opt['captcha'] = array(1=>L('PUBLIC_OPEN'), 0=>L('PUBLIC_CLOSE'));
+		$this->opt ['register_audit'] = $this->opt ['captcha'] = array (
+				1 => L ( 'PUBLIC_OPEN' ),
+				0 => L ( 'PUBLIC_CLOSE' ) 
+		);
 		// 是，否
-		$this->opt['need_active'] = array(1=>L('PUBLIC_OPEN'), 0=>L('PUBLIC_CLOSE'));
-/*		$this->opt ['photo_open'] = array (
+		$this->opt ['need_active'] = array (
 				1 => L ( 'PUBLIC_OPEN' ),
 				0 => L ( 'PUBLIC_CLOSE' ) 
 		);
-		$this->opt ['need_photo'] = array (
-				1 => '是，强制上传 ',
-				0 => '否，可跳过 ' 
-		);
-		$this->opt ['tag_open'] = array (
+		/*
+		 * $this->opt ['photo_open'] = array ( 1 => L ( 'PUBLIC_OPEN' ), 0 => L ( 'PUBLIC_CLOSE' ) ); $this->opt ['need_photo'] = array ( 1 => '是，强制上传 ', 0 => '否，可跳过 ' ); $this->opt ['tag_open'] = array ( 1 => L ( 'PUBLIC_OPEN' ), 0 => L ( 'PUBLIC_CLOSE' ) );
+		 */
+		$this->opt ['personal_open'] = array (
 				1 => L ( 'PUBLIC_OPEN' ),
 				0 => L ( 'PUBLIC_CLOSE' ) 
-		);*/
-		$this->opt['personal_open'] = array(1=>L('PUBLIC_OPEN'), 0=>L('PUBLIC_CLOSE'));
-		$this->opt['personal_required'] = array('face'=>'头像', 'location'=>'地区', 'tag'=>'标签', 'intro'=>'简介');
+		);
+		$this->opt ['personal_required'] = array (
+				'face' => '头像',
+				'location' => '地区',
+				'tag' => '标签',
+				'intro' => '简介' 
+		);
 		// $this->opt['interester_open'] = array(1=>L('PUBLIC_OPEN'), 0=>L('PUBLIC_CLOSE'));
 		// $this->opt['interester_rule'] = array('area'=>'按地区匹配', 'tag'=>'按标签匹配', 'face'=>'过滤无头像用户');
-		$this->opt['interester_rule'] = array('area'=>'按地区匹配', 'tag'=>'按标签匹配');
-		$this->opt['welcome_notify'] = array(1=>L('PUBLIC_OPEN'), 0=>L('PUBLIC_CLOSE'));
+		$this->opt ['interester_rule'] = array (
+				'area' => '按地区匹配',
+				'tag' => '按标签匹配' 
+		);
+		$this->opt ['welcome_notify'] = array (
+				1 => L ( 'PUBLIC_OPEN' ),
+				0 => L ( 'PUBLIC_CLOSE' ) 
+		);
 		// 用户组信息
-		$this->opt['default_user_group'] = model('UserGroup')->getHashUsergroup();
+		$this->opt ['default_user_group'] = model ( 'UserGroup' )->getHashUsergroup ();
 		
-		$detailData = model('Xdata')->get($this->systemdata_list.":".$this->systemdata_key);
+		$detailData = model ( 'Xdata' )->get ( $this->systemdata_list . ":" . $this->systemdata_key );
 		$this->onsubmit = 'admin.checkRegisterConfig(this)';
-
-		$this->onload[] = 'admin.registerConfigDefault('.$detailData['personal_open'].', '.$detailData['interester_open'].')';
-
-		$this->displayConfig();
+		
+		$this->onload [] = 'admin.registerConfigDefault(' . $detailData ['personal_open'] . ', ' . $detailData ['interester_open'] . ')';
+		
+		$this->displayConfig ();
 	}
-
+	
 	/**
 	 * * 邀请配置 **
 	 */
 	/**
 	 * 初始化邀请Tab项目
-	 * 
+	 *
 	 * @return void
 	 */
 	private function _initTabInvite() {
@@ -206,44 +226,47 @@ class ConfigAction extends AdministratorAction {
 	/**
 	 * 游客配置
 	 */
-	public function guest(){
-		if ( $_POST ){
-			unset($_POST['systemdata_list']);
-			unset($_POST['systemdata_key']);
-			unset($_POST['pageTitle']);
-			$data = array();
-			foreach ( $_POST as $k=>$v ){
-				$data[$k] = (bool)$v;
+	public function guest() {
+		if ($_POST) {
+			unset ( $_POST ['systemdata_list'] );
+			unset ( $_POST ['systemdata_key'] );
+			unset ( $_POST ['pageTitle'] );
+			$data = array ();
+			foreach ( $_POST as $k => $v ) {
+				$data [$k] = ( bool ) $v;
 			}
-			model ( 'Xdata' )->put('guestConfig' , $data);
-			$this->success( '保存成功' );
+			model ( 'Xdata' )->put ( 'guestConfig', $data );
+			$this->success ( '保存成功' );
 		} else {
-			$access = array_keys ( model('App')->getAccess() );
-			foreach ( $access as &$v ){
+			$access = array_keys ( model ( 'App' )->getAccess () );
+			foreach ( $access as &$v ) {
 				$value = $v;
-				$this->opt[$v] = array('1'=>'是','0'=>'否');
+				$this->opt [$v] = array (
+						'1' => '是',
+						'0' => '否' 
+				);
 			}
 			$this->pageKeyList = $access;
 		}
-		$this->savePostUrl = U('admin/Config/guest');
-		$data = model ( 'Xdata' )->get('guestConfig');
-		if ( !$data ){
-			foreach ( $access as $c ){
-				$data[$c] = '1';
+		$this->savePostUrl = U ( 'admin/Config/guest' );
+		$data = model ( 'Xdata' )->get ( 'guestConfig' );
+		if (! $data) {
+			foreach ( $access as $c ) {
+				$data [$c] = '1';
 			}
 		} else {
-			foreach ( $data as $k=>&$v ){
-				$k = str_replace( '/' , '_', $k );
-				$k = str_replace( '*' , '', $k);
-				$data[$k] = $v;
+			foreach ( $data as $k => &$v ) {
+				$k = str_replace ( '/', '_', $k );
+				$k = str_replace ( '*', '', $k );
+				$data [$k] = $v;
 			}
 		}
-		$this->displayConfig($data);
+		$this->displayConfig ( $data );
 	}
 	
 	/**
 	 * 系统配置 - 邀请配置
-	 * 
+	 *
 	 * @return void
 	 */
 	public function invite() {
@@ -257,7 +280,7 @@ class ConfigAction extends AdministratorAction {
 	
 	/**
 	 * 邮件邀请 - 管理员
-	 * 
+	 *
 	 * @return void
 	 */
 	public function inviteEmail() {
@@ -277,7 +300,7 @@ class ConfigAction extends AdministratorAction {
 	
 	/**
 	 * 管理员邮件邀请操作
-	 * 
+	 *
 	 * @return json 操作后的相关数据
 	 */
 	public function doInvite() {
@@ -294,7 +317,7 @@ class ConfigAction extends AdministratorAction {
 	
 	/**
 	 * 连接邀请 - 管理员
-	 * 
+	 *
 	 * @return void
 	 */
 	public function inviteLink() {
@@ -311,7 +334,7 @@ class ConfigAction extends AdministratorAction {
 	
 	/**
 	 * 获取邀请码接口
-	 * 
+	 *
 	 * @return json 操作后的相关数据
 	 */
 	public function getInviteCode() {
@@ -330,7 +353,7 @@ class ConfigAction extends AdministratorAction {
 	
 	/**
 	 * 已邀请用户列表
-	 * 
+	 *
 	 * @return html 显示已邀请用户列表
 	 */
 	public function getInviteAdminList() {
@@ -522,9 +545,9 @@ class ConfigAction extends AdministratorAction {
 		
 		$this->opt ['email_sendtype'] = array (
 				'smtp' => '远程smtp',
-				'mail' => '本地mail',
-				// 'sendmail' => 'sendmail',
-		);
+				'mail' => '本地mail' 
+		// 'sendmail' => 'sendmail',
+				);
 		$this->opt ['email_ssl'] = array (
 				'0' => L ( 'PUBLIC_SYSTEMD_FALSE' ),
 				'1' => L ( 'PUBLIC_SYSTEMD_TRUE' ) 
@@ -544,10 +567,10 @@ class ConfigAction extends AdministratorAction {
 				'tabHash' => 'attach',
 				'url' => U ( 'admin/Config/attach' ) 
 		);
-		$this->pageTab[] = array(
-			'title' => '图片配置',
-			'tabHash' => 'attachimage',
-			'url' => U('admin/Config/attachimage')
+		$this->pageTab [] = array (
+				'title' => '图片配置',
+				'tabHash' => 'attachimage',
+				'url' => U ( 'admin/Config/attachimage' ) 
 		);
 		$this->pageTab [] = array (
 				'title' => L ( 'PUBLIC_CLOUDIMAGE_CONFIG' ),
@@ -567,8 +590,7 @@ class ConfigAction extends AdministratorAction {
 		);
 		$this->displayConfig ();
 	}
-
-	public function attachimage () {
+	public function attachimage() {
 		$this->pageTitle ['attach'] = '图片配置';
 		// Tab选项
 		$this->pageTab [] = array (
@@ -576,10 +598,10 @@ class ConfigAction extends AdministratorAction {
 				'tabHash' => 'attach',
 				'url' => U ( 'admin/Config/attach' ) 
 		);
-		$this->pageTab[] = array(
-			'title' => '图片配置',
-			'tabHash' => 'attachimage',
-			'url' => U('admin/Config/attachimage')
+		$this->pageTab [] = array (
+				'title' => '图片配置',
+				'tabHash' => 'attachimage',
+				'url' => U ( 'admin/Config/attachimage' ) 
 		);
 		$this->pageTab [] = array (
 				'title' => L ( 'PUBLIC_CLOUDIMAGE_CONFIG' ),
@@ -591,12 +613,19 @@ class ConfigAction extends AdministratorAction {
 				'tabHash' => 'cloudattach',
 				'url' => U ( 'admin/Config/cloudattach' ) 
 		);
-
-		$this->opt['auto_thumb'] = array('0'=>'使用原图', '1'=>'自动缩图');
-
-		$this->pageKeyList = array('attach_max_size', 'attach_allow_extension', 'auto_thumb');
-
-		$this->displayConfig();
+		
+		$this->opt ['auto_thumb'] = array (
+				'0' => '使用原图',
+				'1' => '自动缩图' 
+		);
+		
+		$this->pageKeyList = array (
+				'attach_max_size',
+				'attach_allow_extension',
+				'auto_thumb' 
+		);
+		
+		$this->displayConfig ();
 	}
 	
 	/**
@@ -610,10 +639,10 @@ class ConfigAction extends AdministratorAction {
 				'tabHash' => 'attach',
 				'url' => U ( 'admin/Config/attach' ) 
 		);
-		$this->pageTab[] = array(
-			'title' => '图片配置',
-			'tabHash' => 'attachimage',
-			'url' => U('admin/Config/attachimage')
+		$this->pageTab [] = array (
+				'title' => '图片配置',
+				'tabHash' => 'attachimage',
+				'url' => U ( 'admin/Config/attachimage' ) 
 		);
 		$this->pageTab [] = array (
 				'title' => L ( 'PUBLIC_CLOUDIMAGE_CONFIG' ),
@@ -655,10 +684,10 @@ class ConfigAction extends AdministratorAction {
 				'tabHash' => 'attach',
 				'url' => U ( 'admin/Config/attach' ) 
 		);
-		$this->pageTab[] = array(
-			'title' => '图片配置',
-			'tabHash' => 'attachimage',
-			'url' => U('admin/Config/attachimage')
+		$this->pageTab [] = array (
+				'title' => '图片配置',
+				'tabHash' => 'attachimage',
+				'url' => U ( 'admin/Config/attachimage' ) 
 		);
 		$this->pageTab [] = array (
 				'title' => L ( 'PUBLIC_CLOUDIMAGE_CONFIG' ),
@@ -709,7 +738,7 @@ class ConfigAction extends AdministratorAction {
 	
 	/**
 	 * 保存敏感词设置，敏感词单独存放
-	 * 
+	 *
 	 * @return [type] [description]
 	 */
 	public function doaudit() {
@@ -722,103 +751,142 @@ class ConfigAction extends AdministratorAction {
 			$this->error ( L ( 'PUBLIC_SENSITIVE_SAVE_FAIL' ) );
 		}
 	}
-
 	public function sensitive() {
-		$this->_sensitiveTab();
-
-		$this->pageKeyList = array('word', 'type_name', 'replace', 'sensitive_category', 'uname', 'format_ctime', 'DOACTION');
-
-		$this->pageButton[] = array('title'=>'新增敏感词', 'onclick'=>"admin.setSensitiveBox()");
-		// $this->pageButton[] = array('title'=>'删除', 'onclick'=>"admin.rmSensitive('search_form')");
-
-		$listData = model('SensitiveWord')->getSensitiveWordList();
-		foreach ($listData['data'] as &$value) {
-			$value['sensitive_category'] = $value['sensitive_category']['title'];
-			if (in_array($value['type'], array(1, 2))) {
-				$value['replace'] = '<span style="color:blue;cursor:auto;">无</span>';
-			}
-			$value['DOACTION'] = '<a href="javascript:;" onclick="admin.setSensitiveBox('.$value['sensitive_word_id'].')">编辑</a>';
-			$value['DOACTION'] .= '&nbsp;-&nbsp;<a href="javascript:;" onclick="admin.rmSensitive('.$value['sensitive_word_id'].')">删除</a>';
-		}
-
-		$this->displayList($listData);
-	}
-
-	public function setSensitiveBox() {
-		$id = isset($_GET['id']) ? intval($_GET['id']) : 0;
-		if (!empty($id)) {
-			$data = model('SensitiveWord')->getSensitiveWord($id);
-			$this->assign($data);
-			$this->assign('id', $id);
-		}
-
-		$categoryList = model('CategoryTree')->setTable('sensitive_category')->getCategoryList();
-		$this->assign('categoryList', $categoryList);
-
-		$this->display('sensitiveBox');
-	}
-
-	public function doSetSensitive() {
-		$id = isset($_POST['id']) ? intval($_POST['id']) : 0;
-		$word = t($_POST['word']);
-		$type = intval($_POST['type']);
-		$replace = t($_POST['replace']);
-		$cid = intval($_POST['cid']);
-
-		if (empty($word) || !in_array($type, array(1, 2, 3)) || empty($cid) || ($type == 3 && empty($replace)) ) {
-			exit(json_encode(array('status'=>0, 'info'=>'操作失败')));
-		}
-
-		$result = false;
-		if (empty($id)) {
-			$result = model('SensitiveWord')->setSensitiveWord($word, $replace, $type, $cid, $this->mid);
-		} else {
-			$result = model('SensitiveWord')->setSensitiveWord($word, $replace, $type, $cid, $this->mid, $id);
-		}
-		$res = array();
-		if ($result) {
-			$res = array('status'=>1, 'info'=>'操作成功');
-		} else {
-			$res = array('status'=>0, 'info'=>'操作失败');
-		}
-		exit(json_encode($res));
-	}
-
-	public function doRmSensitive() {
-		$id = intval($_POST['id']);
-		if (empty($id)) {
-			exit(json_encode(array('status'=>0, 'info'=>'操作失败')));
-		}
-		$result = model('SensitiveWord')->rmSensitiveWord($id);
-		$res = array();
-		if ($result) {
-			$res = array('status'=>1, 'info'=>'操作成功');
-		} else {
-			$res = array('status'=>0, 'info'=>'操作失败');
-		}
-		exit(json_encode($res));
-	}
-
-	public function sensitiveCategory() {
-		$this->_sensitiveTab();
-		$_GET['pid'] = intval($_GET['pid']);
-		$treeData = model('CategoryTree')->setTable('sensitive_category')->getNetworkList();
+		$this->_sensitiveTab ();
 		
-		$this->displayTree($treeData, 'sensitive_category', 1);
+		$this->pageKeyList = array (
+				'word',
+				'type_name',
+				'replace',
+				'sensitive_category',
+				'uname',
+				'format_ctime',
+				'DOACTION' 
+		);
+		
+		$this->pageButton [] = array (
+				'title' => '新增敏感词',
+				'onclick' => "admin.setSensitiveBox()" 
+		);
+		// $this->pageButton[] = array('title'=>'删除', 'onclick'=>"admin.rmSensitive('search_form')");
+		
+		$listData = model ( 'SensitiveWord' )->getSensitiveWordList ();
+		foreach ( $listData ['data'] as &$value ) {
+			$value ['sensitive_category'] = $value ['sensitive_category'] ['title'];
+			if (in_array ( $value ['type'], array (
+					1,
+					2 
+			) )) {
+				$value ['replace'] = '<span style="color:blue;cursor:auto;">无</span>';
+			}
+			$value ['DOACTION'] = '<a href="javascript:;" onclick="admin.setSensitiveBox(' . $value ['sensitive_word_id'] . ')">编辑</a>';
+			$value ['DOACTION'] .= '&nbsp;-&nbsp;<a href="javascript:;" onclick="admin.rmSensitive(' . $value ['sensitive_word_id'] . ')">删除</a>';
+		}
+		
+		$this->displayList ( $listData );
 	}
-
+	public function setSensitiveBox() {
+		$id = isset ( $_GET ['id'] ) ? intval ( $_GET ['id'] ) : 0;
+		if (! empty ( $id )) {
+			$data = model ( 'SensitiveWord' )->getSensitiveWord ( $id );
+			$this->assign ( $data );
+			$this->assign ( 'id', $id );
+		}
+		
+		$categoryList = model ( 'CategoryTree' )->setTable ( 'sensitive_category' )->getCategoryList ();
+		$this->assign ( 'categoryList', $categoryList );
+		
+		$this->display ( 'sensitiveBox' );
+	}
+	public function doSetSensitive() {
+		$id = isset ( $_POST ['id'] ) ? intval ( $_POST ['id'] ) : 0;
+		$word = t ( $_POST ['word'] );
+		$type = intval ( $_POST ['type'] );
+		$replace = t ( $_POST ['replace'] );
+		$cid = intval ( $_POST ['cid'] );
+		
+		if (empty ( $word ) || ! in_array ( $type, array (
+				1,
+				2,
+				3 
+		) ) || empty ( $cid ) || ($type == 3 && empty ( $replace ))) {
+			exit ( json_encode ( array (
+					'status' => 0,
+					'info' => '操作失败' 
+			) ) );
+		}
+		
+		$result = false;
+		if (empty ( $id )) {
+			$result = model ( 'SensitiveWord' )->setSensitiveWord ( $word, $replace, $type, $cid, $this->mid );
+		} else {
+			$result = model ( 'SensitiveWord' )->setSensitiveWord ( $word, $replace, $type, $cid, $this->mid, $id );
+		}
+		$res = array ();
+		if ($result) {
+			$res = array (
+					'status' => 1,
+					'info' => '操作成功' 
+			);
+		} else {
+			$res = array (
+					'status' => 0,
+					'info' => '操作失败' 
+			);
+		}
+		exit ( json_encode ( $res ) );
+	}
+	public function doRmSensitive() {
+		$id = intval ( $_POST ['id'] );
+		if (empty ( $id )) {
+			exit ( json_encode ( array (
+					'status' => 0,
+					'info' => '操作失败' 
+			) ) );
+		}
+		$result = model ( 'SensitiveWord' )->rmSensitiveWord ( $id );
+		$res = array ();
+		if ($result) {
+			$res = array (
+					'status' => 1,
+					'info' => '操作成功' 
+			);
+		} else {
+			$res = array (
+					'status' => 0,
+					'info' => '操作失败' 
+			);
+		}
+		exit ( json_encode ( $res ) );
+	}
+	public function sensitiveCategory() {
+		$this->_sensitiveTab ();
+		$_GET ['pid'] = intval ( $_GET ['pid'] );
+		$treeData = model ( 'CategoryTree' )->setTable ( 'sensitive_category' )->getNetworkList ();
+		
+		$this->displayTree ( $treeData, 'sensitive_category', 1 );
+	}
 	private function _sensitiveTab() {
-		$this->pageTab[] = array('title'=>L('PUBLIC_FILTER_SETTING'), 'tabHash'=>'sensitive', 'url'=>U('admin/Config/sensitive'));
-		$this->pageTab[] = array('title'=>'敏感词分类', 'tabHash'=>'sensitiveCategory', 'url'=>U('admin/Config/sensitiveCategory'));
+		$this->pageTab [] = array (
+				'title' => L ( 'PUBLIC_FILTER_SETTING' ),
+				'tabHash' => 'sensitive',
+				'url' => U ( 'admin/Config/sensitive' ) 
+		);
+		$this->pageTab [] = array (
+				'title' => '敏感词分类',
+				'tabHash' => 'sensitiveCategory',
+				'url' => U ( 'admin/Config/sensitiveCategory' ) 
+		);
 		// $this->pageTab[] = array('title'=>'敏感审核', 'tabHash'=>'sensitiveAudit', 'url'=>U('admin/Config/sensitiveAudit'));
 	}
-
 	public function access() {
-		$this->pageKeyList = array('ipaccess', 'adminipaccess');
-
-		$this->displayConfig();
+		$this->pageKeyList = array (
+				'ipaccess',
+				'adminipaccess' 
+		);
+		
+		$this->displayConfig ();
 	}
-
 	
 	/**
 	 * 系统配置 - 顶部导航配置 - 导航列表
@@ -844,7 +912,7 @@ class ConfigAction extends AdministratorAction {
 		);
 		// Tab选项
 		$this->pageTab [] = array (
-				'title' => L('PUBLIC_HEAD_NAVIGATION'),
+				'title' => L ( 'PUBLIC_HEAD_NAVIGATION' ),
 				'tabHash' => 'rule',
 				'url' => U ( 'admin/Config/nav' ) 
 		);
@@ -856,7 +924,7 @@ class ConfigAction extends AdministratorAction {
 		$this->pageTab [] = array (
 				'title' => '游客导航',
 				'tabHash' => 'guest',
-				'url' => U ( 'admin/Config/guestNav' )
+				'url' => U ( 'admin/Config/guestNav' ) 
 		);
 		$this->pageTab [] = array (
 				'title' => L ( 'PUBLIC_ADD_NAVIGATION' ),
@@ -956,7 +1024,7 @@ class ConfigAction extends AdministratorAction {
 		);
 		// Tab选项
 		$this->pageTab [] = array (
-				'title' => L('PUBLIC_HEAD_NAVIGATION'),
+				'title' => L ( 'PUBLIC_HEAD_NAVIGATION' ),
 				'tabHash' => 'rule',
 				'url' => U ( 'admin/Config/nav' ) 
 		);
@@ -968,7 +1036,7 @@ class ConfigAction extends AdministratorAction {
 		$this->pageTab [] = array (
 				'title' => '游客导航',
 				'tabHash' => 'guest',
-				'url' => U ( 'admin/Config/guestNav' )
+				'url' => U ( 'admin/Config/guestNav' ) 
 		);
 		$this->pageTab [] = array (
 				'title' => L ( 'PUBLIC_ADD_NAVIGATION' ),
@@ -984,7 +1052,7 @@ class ConfigAction extends AdministratorAction {
 		$this->opt ['position'] = array (
 				'0' => L ( 'PUBLIC_HEAD_NAVIGATION' ),
 				'1' => L ( 'PUBLIC_BOTTOM_NAVIGATION' ),
-				'2' => '游客导航'
+				'2' => '游客导航' 
 		);
 		$this->opt ['status'] = array (
 				'0' => L ( 'SSC_CLOSE' ),
@@ -1050,7 +1118,7 @@ class ConfigAction extends AdministratorAction {
 	/**
 	 * 游客导航
 	 */
-	public function guestNav(){
+	public function guestNav() {
 		$this->pageKeyList = array (
 				'navi_id',
 				'navi_name',
@@ -1063,51 +1131,51 @@ class ConfigAction extends AdministratorAction {
 				'is_app_navi',
 				'parent_id',
 				'order_sort',
-				'DOACTION'
+				'DOACTION' 
 		);
 		$this->pageButton [] = array (
 				'title' => L ( 'PUBLIC_ADD' ),
-				'onclick' => "javascript:location.href='" . U ( 'admin/Config/navAdd', 'addtype=3&tabHash=type' ) . "'"
+				'onclick' => "javascript:location.href='" . U ( 'admin/Config/navAdd', 'addtype=3&tabHash=type' ) . "'" 
 		);
 		// Tab选项
 		$this->pageTab [] = array (
-				'title' => L('PUBLIC_HEAD_NAVIGATION'),
+				'title' => L ( 'PUBLIC_HEAD_NAVIGATION' ),
 				'tabHash' => 'rule',
-				'url' => U ( 'admin/Config/nav' )
+				'url' => U ( 'admin/Config/nav' ) 
 		);
 		$this->pageTab [] = array (
 				'title' => '底部导航',
 				'tabHash' => 'foot',
-				'url' => U ( 'admin/Config/footNav' )
+				'url' => U ( 'admin/Config/footNav' ) 
 		);
 		$this->pageTab [] = array (
 				'title' => '游客导航',
 				'tabHash' => 'guest',
-				'url' => U ( 'admin/Config/guestNav' )
+				'url' => U ( 'admin/Config/guestNav' ) 
 		);
 		$this->pageTab [] = array (
 				'title' => L ( 'PUBLIC_ADD_NAVIGATION' ),
 				'tabHash' => 'type',
-				'url' => U ( 'admin/Config/navAdd' )
+				'url' => U ( 'admin/Config/navAdd' ) 
 		);
 		// 列表分页栏按钮
 		$this->opt ['target'] = array (
 				'_blank' => L ( 'PUBLIC_NEW_WINDOW' ),
 				'_self' => L ( 'PUBLIC_CURRENT_WINDOW' ),
-				'_parent' => L ( 'PUBLIC_PARENT_WINDOW' )
+				'_parent' => L ( 'PUBLIC_PARENT_WINDOW' ) 
 		);
 		$this->opt ['position'] = array (
 				'0' => L ( 'PUBLIC_HEAD_NAVIGATION' ),
 				'1' => L ( 'PUBLIC_BOTTOM_NAVIGATION' ),
-				'2' => '游客导航'
+				'2' => '游客导航' 
 		);
 		$this->opt ['status'] = array (
 				'0' => L ( 'SSC_CLOSE' ),
-				'1' => L ( 'PUBLIC_OPEN' )
+				'1' => L ( 'PUBLIC_OPEN' ) 
 		);
 		$this->opt ['is_app_navi'] = array (
 				'0' => L ( 'PUBLIC_SYSTEMD_FALSE' ),
-				'1' => L ( 'PUBLIC_SYSTEMD_TRUE' )
+				'1' => L ( 'PUBLIC_SYSTEMD_TRUE' ) 
 		);
 		// 数据的格式化与listKey保持一致
 		$listData = model ( 'Navi' )->where ( 'position=2' )->order ( "order_sort asc" )->findPage ( 20 );
@@ -1144,17 +1212,17 @@ class ConfigAction extends AdministratorAction {
 						'id' => $v ['navi_id'],
 						'type' => 'son',
 						'tabHash' => 'type',
-						'addtype' => 3
+						'addtype' => 3 
 				) ) . '" >' . L ( 'PUBLIC_ADD_SUBNAVIGATION' ) . '</a>&nbsp;-&nbsp;<a href="' . U ( 'admin/Config/navAdd', array (
 						'id' => $v ['navi_id'],
 						'tabHash' => 'type',
-						'addtype' => 3
+						'addtype' => 3 
 				) ) . '">' . L ( 'PUBLIC_EDIT' ) . '</a>&nbsp;-&nbsp;<a href="javascript:admin.delnav(\'' . $v ['navi_id'] . '\')">' . L ( 'PUBLIC_STREAM_DELETE' ) . '</a>';
 			} else {
 				$v ['DOACTION'] = '<a href="' . U ( 'admin/Config/navAdd', array (
 						'id' => $v ['navi_id'],
 						'tabHash' => 'type',
-						'addtype' => 3
+						'addtype' => 3 
 				) ) . '">' . L ( 'PUBLIC_EDIT' ) . '</a>&nbsp;-&nbsp;<a href="javascript:admin.delnav(\'' . $v ['navi_id'] . '\')" >' . L ( 'PUBLIC_STREAM_DELETE' ) . '</a>';
 			}
 		}
@@ -1203,19 +1271,19 @@ class ConfigAction extends AdministratorAction {
 				$map ['parent_id'] = 0;
 				$rel = model ( 'Navi' )->add ( $map );
 			} else {
-				$rel = model ( 'Navi' )->where ( 'navi_id=' . intval($_GET ['id']) )->save ( $map );
+				$rel = model ( 'Navi' )->where ( 'navi_id=' . intval ( $_GET ['id'] ) )->save ( $map );
 			}
 			$rel = true;
 		}
-
+		
 		// 清除导航缓存
-		model('Navi')->cleanCache();
-
+		model ( 'Navi' )->cleanCache ();
+		
 		if ($rel) {
 			$jumpstr = 'nav';
-			if ( $map ['position'] == 1){
+			if ($map ['position'] == 1) {
 				$jumpstr = "footNav&tabHash=foot";
-			} else if ( $map['position'] == 2 ){
+			} else if ($map ['position'] == 2) {
 				$jumpstr = 'guestNav&tabHash=guest';
 			}
 			$this->assign ( 'jumpUrl', U ( 'admin/Config/' . $jumpstr ) );
@@ -1229,11 +1297,11 @@ class ConfigAction extends AdministratorAction {
 	 * 系统配置 - 导航配置 - 增加导航
 	 */
 	public function navAdd() {
-		$addtype = $_GET ['addtype'] ? intval($_GET ['addtype']) : 1;
+		$addtype = $_GET ['addtype'] ? intval ( $_GET ['addtype'] ) : 1;
 		// 顶部导航
 		if ($addtype == 1) {
 			$defaultdata ['position'] = 0;
-		} else if($addtype == 2){
+		} else if ($addtype == 2) {
 			$defaultdata ['position'] = 1;
 		} else {
 			$defaultdata ['position'] = 2;
@@ -1250,7 +1318,7 @@ class ConfigAction extends AdministratorAction {
 				'order_sort' 
 		);
 		$this->pageTab [] = array (
-				'title' => L('PUBLIC_HEAD_NAVIGATION'),
+				'title' => L ( 'PUBLIC_HEAD_NAVIGATION' ),
 				'tabHash' => 'rule',
 				'url' => U ( 'admin/Config/nav' ) 
 		);
@@ -1262,7 +1330,7 @@ class ConfigAction extends AdministratorAction {
 		$this->pageTab [] = array (
 				'title' => '游客导航',
 				'tabHash' => 'guest',
-				'url' => U ( 'admin/Config/guestNav' )
+				'url' => U ( 'admin/Config/guestNav' ) 
 		);
 		$this->pageTab [] = array (
 				'title' => L ( 'PUBLIC_ADD_NAVIGATION' ),
@@ -1278,7 +1346,7 @@ class ConfigAction extends AdministratorAction {
 		$this->opt ['position'] = array (
 				'0' => L ( 'PUBLIC_HEAD_NAVIGATION' ),
 				'1' => L ( 'PUBLIC_BOTTOM_NAVIGATION' ),
-				'2' => '游客导航'
+				'2' => '游客导航' 
 		);
 		$this->opt ['status'] = array (
 				'0' => L ( 'PUBLIC_CLOSE' ),
@@ -1305,14 +1373,18 @@ class ConfigAction extends AdministratorAction {
 				'_self' => L ( 'PUBLIC_CURRENT_WINDOW' ),
 				'_parent' => L ( 'PUBLIC_PARENT_WINDOW' ) 
 		);
-		$opt = array(1=>L('PUBLIC_HEAD_NAVIGATION'),2=>L('PUBLIC_BOTTOM_NAVIGATION'),3=>'游客导航');
-		$addtitle = $opt[$addtype] ;
+		$opt = array (
+				1 => L ( 'PUBLIC_HEAD_NAVIGATION' ),
+				2 => L ( 'PUBLIC_BOTTOM_NAVIGATION' ),
+				3 => '游客导航' 
+		);
+		$addtitle = $opt [$addtype];
 		$this->opt ['position'] = isset ( $_GET ['id'] ) ? array (
 				$defaultdata ['position'] => $addtitle 
 		) : array (
 				'0' => L ( 'PUBLIC_HEAD_NAVIGATION' ),
 				'1' => L ( 'PUBLIC_BOTTOM_NAVIGATION' ),
-				'2' => '游客导航'
+				'2' => '游客导航' 
 		);
 		$this->notEmpty = array (
 				'navi_name',
@@ -1325,15 +1397,15 @@ class ConfigAction extends AdministratorAction {
 		
 		if (! $_GET ['type']) {
 			if (! empty ( $_GET ['id'] )) {
-				$editnav = model ( 'Navi' )->where ( 'navi_id=' . intval($_GET ['id']) )->find ();
-				$this->savePostUrl = U ( 'admin/Config/doNav&id=' . intval($_GET ['id']) );
+				$editnav = model ( 'Navi' )->where ( 'navi_id=' . intval ( $_GET ['id'] ) )->find ();
+				$this->savePostUrl = U ( 'admin/Config/doNav&id=' . intval ( $_GET ['id'] ) );
 				$this->displayConfig ( $editnav );
 			} else {
 				$this->savePostUrl = U ( 'admin/Config/doNav' );
 				$this->displayConfig ( $defaultdata );
 			}
 		} else {
-			$this->savePostUrl = U ( 'admin/Config/doNav&id=' . intval($_GET ['id']) . '&type=son' );
+			$this->savePostUrl = U ( 'admin/Config/doNav&id=' . intval ( $_GET ['id'] ) . '&type=son' );
 			$this->displayConfig ( $defaultdata );
 		}
 	}
@@ -1390,7 +1462,7 @@ class ConfigAction extends AdministratorAction {
 				'topic' => '话题',
 				'contribute' => '投稿' 
 		);
-		$this->opt ['weibo_uploadvideo_open'] = array(
+		$this->opt ['weibo_uploadvideo_open'] = array (
 				'0' => L ( 'PUBLIC_SYSTEMD_FALSE' ),
 				'1' => L ( 'PUBLIC_SYSTEMD_TRUE' ) 
 		);
@@ -1403,34 +1475,161 @@ class ConfigAction extends AdministratorAction {
 				0 => '全站用户',
 				1 => '关注用户' 
 		);
-
-		$this->pageTab[] = array('title' => '分享配置', 'tabHash' => 'feed', 'url' => U('admin/Config/feed'));
-		$this->pageTab[] = array('title' => '分享视频信息API配置', 'tabHash' => 'feedVideo', 'url' => U('admin/Config/feedVideo'));
-
+		
+		$this->pageTab [] = array (
+				'title' => '分享配置',
+				'tabHash' => 'feed',
+				'url' => U ( 'admin/Config/feed' ) 
+		);
+		$this->pageTab [] = array (
+				'title' => '分享视频信息API配置',
+				'tabHash' => 'feedVideo',
+				'url' => U ( 'admin/Config/feedVideo' ) 
+		);
+		
 		$this->displayConfig ();
 	}
-
+	
 	/**
 	 * 配置获取第三方视频信息接口信息
 	 *
 	 * @return void
 	 * @author Medz Seven <lovevipdsw@vip.qq.com>
-	 **/
-	public function feedVideo()
-	{
-		$this->pageTab[] = array('title' => '分享配置', 'tabHash' => 'feed', 'url' => U('admin/Config/feed'));
-		$this->pageTab[] = array('title' => '分享视频信息API配置', 'tabHash' => 'feedVideo', 'url' => U('admin/Config/feedVideo'));
-
-		$this->pageTitle['feedVideo'] = '分享第三方视频信息接口信息配置';
-
+	 *        
+	 */
+	public function feedVideo() {
+		$this->pageTab [] = array (
+				'title' => '分享配置',
+				'tabHash' => 'feed',
+				'url' => U ( 'admin/Config/feed' ) 
+		);
+		$this->pageTab [] = array (
+				'title' => '分享视频信息API配置',
+				'tabHash' => 'feedVideo',
+				'url' => U ( 'admin/Config/feedVideo' ) 
+		);
+		
+		$this->pageTitle ['feedVideo'] = '分享第三方视频信息接口信息配置';
+		
 		$this->systemdata_list = 'outside';
-		$this->systemdata_key  = 'video';
-
-		$this->pageKeyList     = array('youku_client_id', 'tudou_app_key');
-
-		$this->displayConfig();
+		$this->systemdata_key = 'video';
+		
+		$this->pageKeyList = array (
+				'youku_client_id',
+				'tudou_app_key' 
+		);
+		
+		$this->displayConfig ();
 	}
-	
+	// ******************论坛城市管理*************************
+	function _city_nav() {
+		$this->pageTab [] = array (
+				'title' => '城市列表',
+				'tabHash' => 'city',
+				'url' => U ( 'admin/Config/city' ) 
+		);
+		$this->pageTab [] = array (
+				'title' => '增加城市',
+				'tabHash' => 'addCity',
+				'url' => U ( 'admin/Config/addCity' ) 
+		);
+	}
+	function city() {
+		$_REQUEST ['tabHash'] = 'city';
+		$this->_city_nav ();
+		$this->allSelected = false;
+		
+		$this->pageKeyList = array (
+				'city',
+				'manager_uids',
+				'url',
+				'cTime',
+				'option' 
+		);
+		
+		$listData = M ( 'city' )->findPage ();
+		foreach ( $listData ['data'] as $key => &$value ) {
+			$uids = explode ( ',', $value ['manager_uids'] );
+			
+			$names = array ();
+			foreach ( $uids as $uid ) {
+				$info = model ( 'User' )->getUserInfo ( $uid );
+				$names [] = $info ['uname'];
+			}
+			$value ['manager_uids'] = implode ( ',', $names );
+			$value ['url'] = SITE_URL . '/index.php?app=w3g&city=' . $value ['id'];
+			$value ['cTime'] = friendlyDate ( $value ['cTime'] );
+			$value ['option'] = '<a href="' . U ( 'admin/Config/editCity', array (
+					'id' => $value ['id'] 
+			) ) . '">编辑</a>';
+		}
+		
+		$this->displayList ( $listData );
+	}
+	function addCity() {
+		$this->_city_nav ();
+		$this->pageKeyList = array (
+				'city',
+				'manager_uids' 
+		);
+		
+		$this->savePostUrl = U ( 'admin/Config/doAddCity' );
+		$this->notEmpty = array (
+				'city' 
+		);
+		$this->displayConfig ();
+	}
+	function doAddCity() {
+		$map ['city'] = safe ( $_POST ['city'] );
+		$info = M ( 'city' )->where ( $map )->find ();
+		if ($info) {
+			$this->error ( '城市名称已经存在' );
+		}
+		
+		$map ['manager_uids'] = safe ( $_POST ['manager_uids'] );
+		$map ['cTime'] = time ();
+		$id = M ( 'city' )->add ( $map );
+		
+		$this->assign ( 'jumpUrl', U ( 'admin/Config/city' ) );
+		$this->success ( L ( 'PUBLIC_ADD_SUCCESS' ) );
+	}
+	function editCity() {
+		$this->_city_nav ();
+		$this->pageKeyList = array (
+				'city',
+				'manager_uids' 
+		);
+		
+		$map ['id'] = intval ( $_GET ['id'] );
+		$info = M ( 'city' )->where ( $map )->find ();
+		
+		$this->savePostUrl = U ( 'admin/Config/doEditCity', $map );
+		$this->notEmpty = array (
+				'city' 
+		);
+		
+		$this->displayConfig ( $info );
+	}
+	function doEditCity() {
+		$id = intval ( $_GET ['id'] );
+		$map ['city'] = $data ['city'] = t ( $_POST ['city'] );
+		$map ['id'] = array (
+				'exp',
+				'!=' . $id 
+		);
+		$info = M ( 'city' )->where ( $map )->find ();
+		if ($info) {
+			$this->error ( '城市名称已经存在' );
+		}
+		
+		$map ['manager_uids'] = $data ['manager_uids'] = t ( $_POST ['manager_uids'] );
+		
+		$map2 ['id'] = $id;
+		$id = M ( 'city' )->where ( $map2 )->save ( $data );
+		
+		$this->assign ( 'jumpUrl', U ( 'admin/Config/city' ) );
+		$this->success ( L ( '编辑成功' ) );
+	}
 	/**
 	 * 系统配置 - 地区配置
 	 */
@@ -1656,7 +1855,7 @@ class ConfigAction extends AdministratorAction {
 		$data ['data'] = L ( 'PUBLIC_ADMIN_OPRETING_SUCCESS' );
 		
 		// 更新缓存
-		model('Lang')->initSiteLang();
+		model ( 'Lang' )->initSiteLang ();
 		
 		exit ( json_encode ( $data ) );
 	}
@@ -1890,10 +2089,10 @@ class ConfigAction extends AdministratorAction {
 		
 		$d ['langType'] = model ( 'Lang' )->getLangType ();
 		$d ['nodeInfo'] = model ( 'Notify' )->getNode ( t ( $_REQUEST ['node'] ) );
-		if(empty($d['nodeInfo'])){
-			$this->error('参数出错');
+		if (empty ( $d ['nodeInfo'] )) {
+			$this->error ( '参数出错' );
 		}
-
+		
 		$new ['appname'] = strtoupper ( $d ['nodeInfo'] ['appname'] );
 		$new ['filetype'] = 0;
 		$map ['key'] = $d ['nodeInfo'] ['content_key'];
@@ -1961,18 +2160,18 @@ class ConfigAction extends AdministratorAction {
 		if ($res) {
 			$new ['appname'] = strtoupper ( $data ['appname'] );
 			$new ['filetype'] = 0;
-			$new ['key'] = strtoupper($data ['content_key']);
+			$new ['key'] = strtoupper ( $data ['content_key'] );
 			if (! model ( 'Lang' )->where ( $new )->find ()) {
 				model ( 'Lang' )->add ( $new );
 			}
 			
-			$new ['key'] = strtoupper($data ['title_key']);
+			$new ['key'] = strtoupper ( $data ['title_key'] );
 			if (! model ( 'Lang' )->where ( $new )->find ()) {
 				model ( 'Lang' )->add ( $new );
 			}
 			
-			//更新缓存
-			$dao->cleanCache();
+			// 更新缓存
+			$dao->cleanCache ();
 			
 			$tabhash = $data ['type'] == 2 ? 'notify_admin' : 'notify_user';
 			$this->assign ( 'jumpUrl', U ( 'admin/Config/notify', 'type=' . $_POST ['type'] . '&tabHash=' . $tabhash ) );
@@ -2087,8 +2286,8 @@ class ConfigAction extends AdministratorAction {
 	 * 编辑SEO项
 	 */
 	public function editSeo() {
-		$key = t($_GET ['key']);
-		$name = t($_GET ['name']);
+		$key = t ( $_GET ['key'] );
+		$name = t ( $_GET ['name'] );
 		$this->systemdata_key = 'seo_' . $key;
 		$this->pageTab [] = array (
 				'title' => 'SEO设置',
@@ -2282,28 +2481,32 @@ define('UC_SYNC', {$ucopen});
 		$this->savePostUrl = U ( 'admin/Config/setUcenter' );
 		$this->displayConfig ( $data );
 	}
-
 	public function sms() {
 		// $this->pageKeyList = array(
-		// 	'sms_server',
-		// 	'sms_account',
-		// 	'sms_password',
+		// 'sms_server',
+		// 'sms_account',
+		// 'sms_password',
 		// );
-		
-		$this->pageKeyList = array('sms_server', 'sms_param', 'success_code', 'template', 'send_type', 'service');
-
-		$this->opt['send_type'] = array(
-			'auto' => '自动判断',
-			'post' => 'POST方式',
-			'get'  => 'GET方式',
-		);
-
-		$this->opt['service'] = array(
-			'auto'  => '自动判断',
-			'ihuyi' => '互亿无线'
+		$this->pageKeyList = array (
+				'sms_server',
+				'sms_param',
+				'success_code',
+				'template',
+				'send_type',
+				'service' 
 		);
 		
-		$this->displayConfig();
+		$this->opt ['send_type'] = array (
+				'auto' => '自动判断',
+				'post' => 'POST方式',
+				'get' => 'GET方式' 
+		);
+		
+		$this->opt ['service'] = array (
+				'auto' => '自动判断',
+				'ihuyi' => '互亿无线' 
+		);
+		
+		$this->displayConfig ();
 	}
-
 }

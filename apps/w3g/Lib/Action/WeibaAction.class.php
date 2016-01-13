@@ -5,7 +5,13 @@ class WeibaAction extends BaseAction {
 	// 首页
 	public function index() {
 
-		$indexList = D('weiba_post')->where('is_del=0 AND is_index=1')->order('is_index_time desc' )->findAll();
+		$indexList = D('weiba_post')->where('is_del=0 AND top=2')->order('is_index_time desc' )->findAll();
+		foreach($indexList as &$v){
+			$imgList = matchImages($v['content']);
+			if($imgList){
+				$v['index_img_url'] = $imgList[0];
+			}
+		}
 		$this->assign ('indexList', $indexList);
 		$order = '`top` desc,FIELD(recommend+digest,0,1,2) desc,last_reply_time desc';
 		$map['is_del']   = 0;
@@ -19,6 +25,7 @@ class WeibaAction extends BaseAction {
 			S ('rec_weibalist', $weibalist);
 		}
 		$this->assign('weibalist', $weibalist);
+		//dump($indexList);
 		$this->display();
 	}
 
@@ -421,6 +428,8 @@ class WeibaAction extends BaseAction {
 	 *
 	 */
 	public function my(){
+		$profile = api ( 'User' )->data ( $data )->show ();
+		$this -> assign('profile',$profile);
 		$weiba_arr = getSubByKey(D('weiba','weiba')->where('is_del=0 and status=1')->field('weiba_id')->findAll(),'weiba_id');  //未删除且通过审核的微吧
 		$map['weiba_id'] = array('in',$weiba_arr);
 		$map['is_del'] = 0;

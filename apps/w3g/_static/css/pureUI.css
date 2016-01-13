@@ -1,6 +1,6 @@
 /*******************************************************公共部分样式添加*********************************************************/
 li{list-style-type: none;}
-#header{background: url(../images/header_bg.jpg) repeat-x;}
+#header{background:#03b394;}
 
 .feed_img {float: left;width: 33.3%;margin: 0 15px 0 0;position: relative;}
 ul.small {padding: 0;margin: 0;width: 100%;}
@@ -112,7 +112,7 @@ The content `<div>` is where all your content goes.
 #content {
     box-sizing: border-box;/*add*/
     margin-top: 3em;
-    background-color: white;
+    background-color: #f1f1f1;
     /*padding: 0 2em;*/
     width: 100%;/*add*/
     max-width: 800px;
@@ -856,7 +856,7 @@ show header-bar in `48em`
         top: 0;
         left: 0;
         z-index: 100;
-        background-color: #FFFFFF;
+        background-color: #03b394;
         /*background: rgba(255, 255, 255, 0.9);*/
         -webkit-overflow-scrolling: touch;
         -webkit-transform: translate3d(0,0,0);
@@ -910,7 +910,7 @@ show header-bar in `48em`
         -ms-transform: translate3d(110%,0,0);
         -o-transform: translate3d(110%,0,0);
         transform: translate3d(110%,0,0);
-        background: #ffffff;
+        background: #f1f1f1;
         display: none;
     }
     #content>div.active{
